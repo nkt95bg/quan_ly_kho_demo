@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quan_ly_kho/app/modules/categories_management/categories_management_logic.dart';
 import 'package:quan_ly_kho/app/routes/routes_config.dart';
+import 'package:quan_ly_kho/app/widgets/textfields/app_text_field.dart';
 
 import 'widgets/common/card.dart';
 
@@ -30,23 +31,23 @@ class CategorieManagementView extends GetView<CategoryManagementLogic> {
               ),
             ),
             const SizedBox(height: 16),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                height: 40,
-                child: TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(15)),
-                        ),
-                        suffixIcon: Icon(Icons.search),
-                        // hintText: 'Tìm kiếm',
-                        label: Text('Tìm kiếm'))),
-              ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: AppTextFieldWidget(
+                  onChanged: (value) {
+                    controller.filterCategory(value);
+                  },
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  prefixIcon: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8),
+                    child: Icon(Icons.search_outlined),
+                  ),
+                  hintText: 'Tìm kiếm'),
             ),
             const SizedBox(height: 16),
             Expanded(child: Obx(() {
-              var categories = state.categories;
+              var categories = state.resultCategories;
               return ListView.separated(
                 itemBuilder: ((context, index) {
                   var category = categories[index];

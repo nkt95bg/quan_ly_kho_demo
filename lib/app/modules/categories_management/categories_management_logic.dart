@@ -28,7 +28,20 @@ class CategoryManagementLogic extends GetxController {
   @override
   void onInit() {
     state.categories.assignAll(readCategories());
+    state.resultCategories.value = List.from(state.categories);
     ever(state.categories, (_) => writeCategory(state.categories));
     super.onInit();
+  }
+
+  void filterCategory(String code) {
+    List<SCategory> result = [];
+    if (code.isEmpty) {
+      result = state.categories;
+    } else {
+      result = state.categories
+          .where((p0) => p0.code!.toLowerCase().contains(code.toLowerCase()))
+          .toList();
+    }
+    state.resultCategories.value = result;
   }
 }
